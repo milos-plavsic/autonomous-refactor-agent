@@ -1,6 +1,37 @@
 # 04 - Autonomous Refactor Agent
 
+[![CI](https://github.com/milos-plavsic/autonomous-refactor-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/milos-plavsic/autonomous-refactor-agent/actions/workflows/ci.yml)
+[![Python3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
+
 A repository-aware coding agent that proposes safe refactors, generates patch plans, executes tests, and prepares PR-ready change summaries.
+
+## Quickstart
+
+```bash
+make install
+make run
+make api
+make test
+```
+
+Docker API: `make docker-api`.
+
+## API
+
+- OpenAPI docs: `http://127.0.0.1:8000/docs`
+- Health: `GET /health`
+- Analyze: `POST /v1/refactor/analyze` with JSON body `{"target_path":"..."}`
+
+## Architecture
+
+```mermaid
+flowchart LR
+  R[Repo scan] --> T[Targets]
+  T --> P[Plan]
+  P --> A[Apply patch]
+  A --> G[Quality gates]
+  G --> V[Reviewer]
+```
 
 ## Why This Project Stands Out
 

@@ -3,3 +3,5 @@ pytest
 ruff
 mypy
 python-dotenv
+fastapi
+uvicorn[standard]
