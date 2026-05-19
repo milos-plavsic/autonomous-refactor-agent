@@ -1,7 +1,12 @@
 """Fine-tuning / alignment for coding agents (reward models, rejection sampling, static analysis gates)."""
 
+from ml_core import configure_logging
+
+logger = configure_logging(__name__)
+
 
 def describe_agent_finetune_playbook() -> dict:
+    """Execute the describe agent finetune playbook routine."""
     return {
         "policy_finetune": [
             "SFT on (repo context, accepted patch) pairs from human review.",
@@ -15,9 +20,10 @@ def describe_agent_finetune_playbook() -> dict:
 
 
 def main() -> None:
+    """Execute the main routine."""
     import json
 
-    print(json.dumps(describe_agent_finetune_playbook(), indent=2))
+    logger.info(json.dumps(describe_agent_finetune_playbook(), indent=2))
 
 
 if __name__ == "__main__":
