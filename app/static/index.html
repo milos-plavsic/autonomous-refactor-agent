@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"/><title>Refactor Agent</title></head>
+<body style="font-family:system-ui;max-width:800px;margin:2rem auto">
+<h1>Autonomous Refactor Agent</h1>
+<textarea id="code" rows="12" style="width:100%">def foo():\n    try:\n        pass\n    except:\n        pass</textarea>
+<button id="analyze">Analyze</button>
+<button id="dry">Simulate apply</button>
+<pre id="out"></pre>
+<script>
+const b=location.origin.replace(/\/ui\/?$/,'');
+document.getElementById('analyze').onclick=async()=>{
+  const code=document.getElementById('code').value;
+  const r=await fetch(b+'/v1/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,filename:'snippet.py'})});
+  document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);
+};
+document.getElementById('dry').onclick=async()=>{
+  const code=document.getElementById('code').value;
+  const r=await fetch(b+'/v1/apply/simulate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,issue_type:'bare_except'})});
+  document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);
+};
+</script>
+</body>
+</html>

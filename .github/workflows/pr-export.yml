@@ -1,0 +1,36 @@
+name: PR export checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pr-draft-contract:
+    name: Validate PR draft payload
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: PR draft without credentials
+        run: |
+          python - <<'PY'
+          from app.github_export import create_pr_draft
+          out = create_pr_draft(title="ci-check", body="contract validation")
+          assert out.get("created") is False
+          assert "reason" in out
+          print(out)
+          PY
+      - name: Branch protection reminder
+        run: |
+          test -f docs/BRANCH_PROTECTION.md
+          grep -q "required status checks" docs/BRANCH_PROTECTION.md
