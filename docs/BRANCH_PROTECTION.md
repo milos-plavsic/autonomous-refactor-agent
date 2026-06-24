@@ -3,7 +3,7 @@
 Recommended GitHub settings for `main`:
 
 1. Require a pull request before merging (at least one approval for team repos).
-2. Require status checks to pass:
+2. Require required status checks to pass:
    - `Lint & format`
    - `Type check`
    - `Unit tests`
